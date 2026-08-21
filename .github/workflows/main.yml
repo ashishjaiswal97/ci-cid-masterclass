@@ -34,5 +34,14 @@ jobs:
       - name: Upload image in docker hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:v2
         
-        
-      
+      - name: SSH EC2 Server
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+        with:
+          host: ${{ secrets.EC2_SERVER }}
+          user: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+           docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:v2
+           docker stop spring-boot-app | true
+           docker rm spring-boot-app | true 
+           docker run -d -p 8000:8000 --name spring-boot-app ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:v
