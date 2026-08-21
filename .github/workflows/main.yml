@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: 21
           distribution: 'temurin'
-      - name: Build Projects
+      - name: Build Project
         run: mvn clean package
       - name: Run Tests
         run: mvn test
