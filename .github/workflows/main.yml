@@ -14,7 +14,6 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6.1.0
-
       - name: Setup Java JDK
         uses: actions/setup-java@v5.7.0
         with:
@@ -33,7 +32,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Upload image in docker hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:v2
-        
       - name: SSH EC2 Server
         uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
         with:
